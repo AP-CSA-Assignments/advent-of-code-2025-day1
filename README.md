@@ -1,4 +1,4 @@
-# runestone-2-9-assignment
+# advent-of-code-2025-day1
 
 ## Git Config
 ```
@@ -22,116 +22,66 @@ After you compile the shape classes, you only need to compile and run `Main.java
 
 # Instructions
 
-## Preliminaries - Count a Letter
-The "counting" algorithm works like this:
-1. Create a "count" variable that keeps track of how many elements meet the condition.  Start this count at 0.
-2. Loop through your structure (`String`, list, etc.)
-3. Check if the current item (could be list element or character from a `String`) meets some condition.
-    - Equal to something
-    - Greater than something
-    - Less than something
-    - Some other condition
-4. If the element meets the condition, then increment the count.
-5. Return the count.
+## Advent of Code 2025
+Go to [Advent of Code 2025 - Day 1 (Link)](https://adventofcode.com/2025/day/1).  Login with your Google student account, and get your unique program input.  Copy and paste the input into the file named `input.txt`.  Complete the program in `Main.java`
 
-As an example, to count how many letters in a `String` are equal to a `target` character, we can do so like this
-```java
-String word = "mississippi";
+Specifically look at the `Scanner` class methods, and the `parseInt` method from the `Integer` class from the [AP Java Quick Reference](https://apcentral.collegeboard.org/media/pdf/ap-computer-science-a-java-quick-reference.pdf).
 
-String target = "s";
-int count = 0;
-for (int i = 0; i < word.length(); i++)
-{
-    String currentLetter = word.substring(i, i+1);
-    if (currentLetter.equals(target))
-    {
-        count++;
-    }
-}
-System.out.println("The letter " + target + " appears " + count + " times.");
+## --- Day 1: Secret Entrance ---
+You arrive at the secret entrance to the North Pole base ready to start decorating. Unfortunately, the **password** seems to have been changed, so you can't get in. A document taped to the wall helpfully explains:
+
+"Due to new security protocols, the password is locked in the safe below. Please see the attached document for the new combination."
+
+The safe has a dial with only an arrow on it; around the dial are the numbers `0` through `99` in order. As you turn the dial, it makes a small click noise as it reaches each number.
+
+The attached document (your puzzle input) contains a sequence of **rotations**, one per line, which tell you how to open the safe. A rotation starts with an `L` or `R` which indicates whether the rotation should be to the **left** (toward lower numbers) or to the **right** (toward higher numbers). Then, the rotation has a distance value which indicates how many clicks the dial should be rotated in that direction.
+
+So, if the dial were pointing at `11`, a rotation of `R8` would cause the dial to point at `19`. After that, a rotation of `L19` would cause it to point at `0`.
+
+Because the dial is a circle, turning the dial **left from `0`** one click makes it point at `99`. Similarly, turning the dial **right from `99`** one click makes it point at `0`.
+
+So, if the dial were pointing at `5`, a rotation of `L10` would cause it to point at `95`. After that, a rotation of `R5` could cause it to point at `0`.
+
+The dial starts by pointing at `50`.
+
+You could follow the instructions, but your recent required official North Pole secret entrance security training seminar taught you that the safe is actually a decoy. The actual password is the **number of times the dial is left pointing at 0 after any rotation in the sequence.**
+
+For example, suppose the attached document contained the following rotations:
+
+```
+L68
+L30
+R48
+L5
+R60
+L55
+L1
+L99
+R14
+L82
 ```
 
-## Preliminaries - Count Every Letter
-If I wanted to count _every_ letter in a `String`, I could wrap the above counting algorithm in _another_ `for` loop.  See the [example Snap! program](https://snap.berkeley.edu/snap/snap.html#present:Username=ktvu&ProjectName=CSA%20Runestone%202.9%20Letter%20Mode%20Example) for a block visualization of the algorithm.
+Following these rotations would cause the dial to move as follows:
 
-```java
-String word = "mississippi";
+- The dial starts by pointing at `50`.
+- The dial is rotated `L68` to point at `82`.
+- The dial is rotated `L30` to point at `52`.
+- The dial is rotated `R48` to point at `0`.
+- The dial is rotated `L5` to point at `95`.
+- The dial is rotated `R60` to point at `55`.
+- The dial is rotated `L55` to point at `0`.
+- The dial is rotated `L1` to point at `99`.
+- The dial is rotated `L99` to point at `0`.
+- The dial is rotated `R14` to point at `14`.
+- The dial is rotated `L82` to point at `32`.
 
-for (int i = 0; i < word.length(); i++)
-{
+Because the dial points at 0 a total of three times during this process, the password in this example is `3`.
 
-    /*********** This here is the "regular" counting algorithm *****/
-    String target = word.substring(i, i+1);
-    int count = 0;
-    for (int j = 0; j < word.length(); j++)
-    {
-        String currentLetter = word.substring(j, j+1);
-        if (currentLetter.equals(target))
-        {
-            count++;
-        }
-    }
-    System.out.println("The letter " + target + " appears " + count + " times.");
-    /***************************************************************/
+Analyze the rotations in your attached document. What's the actual password to open the door?
 
-}
-```
-      
+**Hints:** Because the dial is a continuous circle that can go from 0 - 99, it behaves like a "clock", and you can use modulo 100 to compute its numbers.
 
-## Problem 1
-Using the counting algorithms above with other algorithms such as the "finding the maximum" algorithm, write a program that finds the letter that appears **most often** in a `String`.  If a word has multiple letters that appear the same number of times, just print out one of the letters.
+**Example**
 
-**Sample Output**
-```
-Enter a word:
-calculator
-
-The letter c appears the most times.
-
-Enter a word:
-boom
-
-The letter o appears the most times.
-```
-
-## Sample Solutions
-```java
-Scanner sc = new Scanner(System.in);
-
-System.out.println("Enter a word");
-String word = sc.nextLine();
-
-int maxCount = 0;  // I can start at 0 since the number of times a letter can appear is at least 1
-String maxLetter = "";
-
-for (int i = 0; i < word.length(); i++)  // loop through to check all the letters
-{
-
-    /*********** Count how many times a letter appears in the word *****/
-    String target = word.substring(i, i+1);
-    int count = 0;
-    for (int j = 0; j < word.length(); j++)
-    {
-        String currentLetter = word.substring(j, j+1);
-        if (currentLetter.equals(target))
-        {
-            count++;
-        }
-    }
-    System.out.println("The letter " + target + " appears " + count + " times.");
-    /***************************************************************/
-    
-    
-    // Check if the current count is the maximum count
-    // Update maximum values accordingly
-    if (count > maxCount)
-    {
-        maxCount = count;
-        maxLetter = target;
-    }
-}
-
-System.out.println("The letter " + maxLetter + " appears the most times at " + maxCount + " times.");
-
-sc.close();
-```
+- If the dial is at `99`, and you do `R3`, you expect to point at 2, and
+$$ 99 + 3 = 102 \equiv 2 \pmod{100} $$
