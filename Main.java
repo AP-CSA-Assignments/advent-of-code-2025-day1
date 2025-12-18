@@ -6,7 +6,7 @@ public class Main
 {
   public static void main(String[] args) throws IOException
   {
-    File file = new File(input.txt);  // this is your problem input as a File object
+    File file = new File("input.txt");  // this is your problem input as a File object
     Scanner sc = new Scanner(file);   // the Scanner object is now reading from the file object
 
 
@@ -22,8 +22,10 @@ public class Main
       // For R802, this would be a String variable with the value "802"
 
 
-      // TODO: Using the parseInt method from the Integer class, convert the String "802" into an int
+      // TODO: Using the static parseInt method from the Integer class, convert the String "802" into an int
+      // For example, Integer.parseInt("802") returns the int value 802
 
+      
 
       // TODO: Now that you have the turning direction, and the turning amount, see if the turn results in a 0
 
