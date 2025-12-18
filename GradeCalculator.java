@@ -14,5 +14,8 @@ public class GradeCalculator
         {
 
         }
+
+
+        sc.close();
     }
 }
